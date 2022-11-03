@@ -1,13 +1,15 @@
 package Hibernate.entity;
 
-import jakarta.persistence.CascadeType;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,16 +23,16 @@ import lombok.ToString;
 @Table(name = "order_product")
 @ToString
 
-
-public class Product {
-
+public class Order {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long productId;
+	private long id;
 	@Column
-	private String name;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "categoryId", nullable = false, referencedColumnName = "Id")
-	private Category category;
+	private String describtion;
+	@ManyToMany
+	@JoinTable(name = "order_product", joinColumns = {@JoinColumn(name = "orderId")}, inverseJoinColumns ={@JoinColumn(name = "productId")})
+
+	private List <Product> products;
 
 }
